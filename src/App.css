@@ -44,3 +44,11 @@
     transform: rotate(360deg);
   }
 }
+
+.Reussi {
+  text-decoration: line-through;
+}
+
+.urgent {
+  color: red;
+}

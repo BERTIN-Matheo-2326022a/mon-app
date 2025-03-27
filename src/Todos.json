@@ -2,7 +2,7 @@
     "taches": [
         {
             "id": 101,
-            "title": "1. Fonctionnalités",
+            "title": "Fonctionnalités",
             "description": "",
             "date_creation": "01/01/2025",
             "date_echeance": "20/03/2025",
@@ -11,7 +11,7 @@
         },
         {
             "id": 102,
-            "title": "2. Etude de marché",
+            "title": "Etude de marché",
             "description": "",
             "date_creation": "01/01/2025",
             "date_echeance": "01/04/2025",
@@ -20,7 +20,7 @@
         },
         {
             "id": 103,
-            "title": "3. Wireframes",
+            "title": "Wireframes",
             "description": "",
             "date_creation": "01/01/2025",
             "date_echeance": "01/04/2025",
