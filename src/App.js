@@ -21,26 +21,6 @@ function App() {
   });
 
   const categories = currentTodos.categories;
-  console.log(categories);
-
-  const ajoutTache = () => {
-    const tache = {
-      id: 108 + taches.length, title: "Nouvelle tâche", etat: ETATS.NOUVEAU
-    }
-    setCurrentTodos((todos) => {
-      return ajouterTacheAState(todos, tache)
-    })
-  }
-  
-  const ajouterTacheAState = (currentTodos, tache) => {
-    return{
-      ...currentTodos,
-      taches: [
-        ...currentTodos.taches,
-        tache
-      ]
-    }
-  }
 
   const randomEtat = () => {
     const etatValues = Object.values(ETATS)
@@ -67,13 +47,12 @@ function App() {
 
           <TabPanel>
             <Todos taches={taches} setCurrentTodos={setCurrentTodos}/>
-            <button onClick={ajoutTache}>Ajouter une tâche</button>
             <footer>
               <button onClick={randomEtat}>Randomiser les états</button>
             </footer>
           </TabPanel>
           <TabPanel>
-            <Categories categories={categories}/>
+            <Categories categories={categories} setCategories={setCurrentTodos}/>
           </TabPanel>
         </Tabs>
       </div>

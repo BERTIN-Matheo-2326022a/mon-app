@@ -2,10 +2,13 @@ import "./App.css"
 import { useContext } from "react";
 import { useState } from "react";
 import { EtatContext } from "./etatContext";
+import { ETATS } from "./etats";
 import { ETAT_TERMINE } from "./etats";
 
 function Todos({taches = [], setCurrentTodos}) {
-    let i = 0;
+
+    const [todoName, setTodoName] = useState('');
+    const [todoState, setTodoState] = useState('');
 
     const etats = useContext(EtatContext);
     const [sortCriteria, setSortCriteria] = useState("");
@@ -21,7 +24,7 @@ function Todos({taches = [], setCurrentTodos}) {
                     case "date_creation":
                         return new Date(a.date_creation) - new Date(b.date_creation);
                     case "nom":
-                        return a.title.localeCompare(b.title);
+                        return a.title.localeCompare(b.title, "fr", {sentisitivy: "base"});
                     case "etat":
                         return a.etat.localeCompare(b.etat);
                     case "urgence":
@@ -32,10 +35,30 @@ function Todos({taches = [], setCurrentTodos}) {
                         return 0;
                 }
             });
-
-            console.log(sortedTaches);
+            console.log(prevTodos);
             return { ...prevTodos, taches: sortedTaches };
         });
+    }
+
+    const ajoutTache = () => {
+        const tache = {
+          id: 108 + taches.length, title:todoName, etat: todoState
+        }
+        setCurrentTodos((todos) => {
+          return ajouterTacheAState(todos, tache)
+        })
+        setTodoName('');
+        setTodoState('');
+    }
+      
+    const ajouterTacheAState = (currentTodos, tache) => {
+        return{
+            ...currentTodos,
+            taches: [
+            ...currentTodos.taches,
+            tache
+            ]
+        }
     }
 
     function changeState(id, newState) {
@@ -48,7 +71,19 @@ function Todos({taches = [], setCurrentTodos}) {
     }
 
     return(
-        <div className='App-todo'>
+        <div className='App-body'>
+            <div className="add">
+                Ajouter une nouvelle Tâche : <br/>
+                <input type="text" value={todoName} onChange={(e) => setTodoName(e.target.value)} placeholder="Entrez le nom de la tâche" />
+                <select value={todoState} onChange={(e) => setTodoState(e.target.value)}>
+                    <option value={''}>--Sélectionnez un état.</option>
+                    {Object.values(etats).map((etat) => 
+                                    <option key={etat} value={etat}>{etat}</option>
+                                )
+                    }
+                </select>
+                <button onClick={ajoutTache}>Ajouter une tâche</button>
+            </div>
             <p>Trier les tâches :</p>
             <select id="sortSelector" value={sortCriteria} onChange={(e) => sort(e.target.value)}>
                 <option value={""}>Aucun tri</option>
@@ -61,10 +96,9 @@ function Todos({taches = [], setCurrentTodos}) {
             </select>
             <br/>
 
-            {taches.map((t) => (
-                ++i,
+            {taches.map((t, index) => (
                 <div key={t.id} className={t.etat + " " + (t.urgent ? 'urgent' : '')}>
-                    {i}. {t.title} 
+                    {index + 1}. {t.title} 
                     <select id="stateSelector" value={t.etat} onChange={(e) => changeState(t.id, e.target.value)}>
                             {Object.values(etats).map((etat) => 
                                 <option key={etat} value={etat}>{etat}</option>
@@ -73,6 +107,7 @@ function Todos({taches = [], setCurrentTodos}) {
                     </select>
                 </div>
             ))}
+            
         </div>
     )
 }
